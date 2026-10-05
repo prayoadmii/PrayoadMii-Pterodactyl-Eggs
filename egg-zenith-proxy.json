@@ -1,0 +1,43 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2026-10-05T19:24:15+00:00",
+    "name": "ZenithProxy",
+    "author": "prayoadmii@gmail.com",
+    "description": "Minecraft ZenithProxy\r\n\r\nMore Info At: https:\/\/wiki.2b2t.vc\/",
+    "features": [],
+    "docker_images": {
+        "Java 25": "ghcr.io\/pterodactyl\/yolks:java_25",
+        "Java 21": "ghcr.io\/pterodactyl\/yolks:java_21"
+    },
+    "file_denylist": [],
+    "startup": ".\/{{EXECUTABLE}}",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \" \"\r\n}",
+        "logs": "{}",
+        "stop": "shutdown"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/bash\r\nset -e\r\n\r\nexport DEBIAN_FRONTEND=noninteractive\r\n\r\napt-get update\r\napt-get install -y curl unzip ca-certificates\r\n\r\ncd \/mnt\/server\r\n\r\nARCH=$(uname -m)\r\n\r\ncase \"$ARCH\" in\r\n    x86_64|amd64)\r\n        FILE=\"ZenithProxy-launcher-linux-amd64.zip\"\r\n        ;;\r\n    aarch64|arm64)\r\n        FILE=\"ZenithProxy-launcher-linux-aarch64.zip\"\r\n        ;;\r\n    *)\r\n        echo \"Unsupported architecture: $ARCH\"\r\n        exit 1\r\n        ;;\r\nesac\r\n\r\necho \"Downloading $FILE...\"\r\n\r\ncurl -L \"https:\/\/github.com\/rfresh2\/ZenithProxy\/releases\/latest\/download\/$FILE\" -o launcher.zip\r\n\r\nunzip -o launcher.zip\r\n\r\nchmod +x launch\r\n\r\nrm launcher.zip\r\n\r\necho \"Done! Ready To Start!\"\r\n\r\nexit 0",
+            "container": "ubuntu:24.04",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Executable",
+            "description": "An Executable File",
+            "env_variable": "EXECUTABLE",
+            "default_value": "launch",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|string|max:20",
+            "field_type": "text"
+        }
+    ]
+}
